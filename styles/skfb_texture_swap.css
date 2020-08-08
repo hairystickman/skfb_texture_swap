@@ -1,0 +1,195 @@
+/* findme credit: basic slider styles pinched from from w3schools */
+body {
+  background-color: #444;
+  font-family: 'Baloo Tamma 2', cursive;
+
+}
+
+h1{
+  font-size:40pt;
+  font-weight:200;
+  color: #eee;
+  text-align:center;
+}
+
+.description {
+  display:block;
+  clear:both;
+  font-size:16pt;
+  font-weight:200;
+  color: #eee;
+  width: 800px;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top: 100px;
+  margin-bottom: 200px;
+  text-align:center;
+}
+
+.controls {
+  width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.slider-container{
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    padding-top: 20px;
+}
+
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 600px;
+  height: 25px; /* Specified height */
+  background: #111; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  border-radius: 50px;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #F0CA64;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #F0CA64;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+/*thumbnail image representing the two textured states.*/
+.preview {
+  width: 200px;
+  height: 200px;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float:left;
+}
+
+.centre {
+  margin:auto;
+}
+
+/* hides a thing completely*/
+.hidden {
+  display:none;
+}
+
+/* makes a thing not seen but transitions still work */
+.invisible {
+  visibility: hidden;
+}
+
+.button {
+  display:block;
+  height:100px;
+  width:100px;
+  background-color: #F0CA64;
+  border-radius: 100px;
+  cursor: pointer;
+  opacity: 0.6; /* Fully shown on mouse-over */
+  margin-top:20px;
+}
+
+.button span{
+  display:block;
+  color:#111;
+  line-height:110px;
+  font-size:24pt;
+  font-weight:500;
+  text-align:center;
+}
+
+  .button:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+  }
+
+.fade-in {
+    animation: fadeIn ease 2s;
+    -webkit-animation: fadeIn ease 2s;
+    -moz-animation: fadeIn ease 2s;
+    -o-animation: fadeIn ease 2s;
+    -ms-animation: fadeIn ease 2s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+
+
+/* Sketchfab viewer some size or other*/
+#api-frame {
+    width:800px;
+    height:600px;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}

@@ -1,0 +1,99 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <!-- google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2&display=swap" rel="stylesheet">
+
+  <!--javascript-->
+  <!-- the script that runs the viewer. Download from the sketchfab website -->
+  <!-- must be called before the initialization code below
+  <script type="text/javascript" src="https://static.sketchfab.com/api/sketchfab-viewer-1.8.2.js"></script> -->
+  <script type="text/javascript" src="javascript/sketchfab-viewer-1.8.2.js"></script>
+
+  <!-- the script. includes a call to the sketchfab api script required
+       requires certain variables passed, such as uid of the model to be used etc. other data like textures it picks from the html ids -->
+  <script id="texture_mixer" type="text/javascript" src="javascript/skfb_texture_swap.js"
+          data-max="4096"
+          data-mid="1024"
+          data-min="256"
+          data-uid="d8d29a1a2cb843fab7757e61f15eac5f"
+          data-ver="1.8.2">
+  </script>
+
+
+  <!-- the stylesheet -->
+  <link rel="stylesheet" type ="text/css" href="styles/skfb_texture_swap.css">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SketchFab API texture mixer test</title>
+</head>
+
+<body>
+    <header>
+      <h1>Sketchfab API texture mixer (v.01)</h1>
+    </header>
+
+
+
+
+<!-- findme: the gubbins -->
+
+    <!-- images used as textures. This is a simple way to load and cache them (and debug. If you don't want to show them, add hidden to the class) -->
+    <!-- the id should be the same, but the source can be whatever you like-->
+    <img id="texture1" src = "images/texture1.jpg" class="hidden" />
+    <img id="texture2" src = "images/texture2.jpg" class="hidden" />
+    <!-- findme todo: - make it work for multiple materials -->
+
+    <!-- this section displays the model via the sketchfab servers-->
+    <iframe src="" id="api-frame" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="vr"></iframe>
+
+    <!-- the controls and preview images, hidden until the sketchfab model has loaded-->
+    <div id = "controls" class="controls invisible">
+      <!-- preview images either side of the slider as a guide could be the texture files if you want -->
+      <img id="preview1" class="preview left" src = "images/preview1.jpg"  />
+      <img id="preview2" class="preview right" src = "images/preview2.jpg" />
+
+      <!-- the slider controller -->
+      <div class="slider-container">
+        <!--findme:  mouse are used events to swap the canvas to smaller size while sliding (faster) requires the skfb_texture_swap.js -->
+        <input type="range" min="1" max="100" value="100" class="slider" id="slider">
+      </div>
+
+      <!-- a mega-detail button - ups the texture displayed while held (be patient) -->
+      <div id="btnDetail" class="button centre">
+        <span id="sliderValue" class="centre" alt"load big res texture">sharp</span>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="description">
+      <p>
+        A brief foray into the Sketchfab API for the mixing of 2 textures. <br />
+        It uses a hidden html canvas and reduces the images on the fly when <br />
+        the slider is moved to speed things up.</p>
+      <p>
+        Press and hold (be patient) the big yellow button to load a <br />
+        higher res texture for a lovely detailed view <br />
+      </p>
+      <p>
+        Currently only works on models with one material, and not older models. <br />
+        Styles, layout and functionality are in no way optomized <br />
+        and it is a matter of blind faith that it will work for other people.
+      </p>
+      <p>
+        Additional comments in source, and all available on Github <br />
+      </p>
+      <p>
+        * If trying it yourself locally you may need to disable 'local file restrictions'.<br />
+      </p>
+    </div>
+
+
+  <footer>
+    <!-- other stuff, more logos etc-->
+  </footer>
+</body>
