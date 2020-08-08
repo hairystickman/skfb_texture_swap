@@ -154,9 +154,15 @@ function ready(){
       api.start(function() {
           // wait for the viewer to be active
           api.addEventListener('viewerready', function() {
+              // remove the loading message
+              document.getElementById("loading").classList.add("hidden");
+
+              // show the controls
           		console.log('viewer ready');
               document.getElementById("controls").classList.add("fade-in");
               document.getElementById("controls").classList.remove("invisible");
+
+
 
               // Only done once
               // get materials on current model and output in console if need to get a name of one later
