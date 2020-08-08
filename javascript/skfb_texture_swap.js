@@ -1,4 +1,7 @@
-// Please share freely
+// Special thanks to O. Murray for suggesting exploring this and providing the incentive to try this out.
+// This code drew on free online resources and tutorials.
+
+// Please improve, build and share it freely also
 
 
 // findme note: requires the sketchfab api to be loaded.
@@ -246,3 +249,7 @@ function ready(){
   });
 
 }
+
+
+
+// findme@hairystickman.co.uk
