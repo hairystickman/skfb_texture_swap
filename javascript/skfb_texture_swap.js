@@ -162,8 +162,8 @@ function ready(){
 
               // show the controls
           		console.log('viewer ready');
-              document.getElementById("controls").classList.add("fade-in");
-              document.getElementById("controls").classList.remove("invisible");
+              document.getElementById("swapper_controls").classList.add("fade-in");
+              document.getElementById("swapper_controls").classList.remove("invisible");
 
 
 

@@ -1,8 +1,13 @@
 /* findme credit: basic slider styles pinched from from w3schools */
 body {
-  background-color: #444;
+  background-color: #222;
   font-family: 'Baloo Tamma 2', cursive;
 
+}
+
+a:visited {
+
+    color:#9de;
 }
 
 h1{
@@ -26,7 +31,7 @@ h1{
   text-align:center;
 }
 
-.controls {
+.swapper_controls {
   width: 1024px;
   margin-left: auto;
   margin-right: auto;
