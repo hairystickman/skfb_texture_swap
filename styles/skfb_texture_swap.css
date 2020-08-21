@@ -31,23 +31,18 @@ h1{
   text-align:center;
 }
 
-.swapper_controls {
+.swapper-controls {
   width: 1024px;
   margin-left: auto;
   margin-right: auto;
-
 }
 
 
 .slider-container{
-    width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 100px;
-    padding-top: 20px;
+
 }
 
-.slider {
+.swap-slider {
   -webkit-appearance: none;  /* Override default CSS styles */
   appearance: none;
   width: 600px;
@@ -56,15 +51,18 @@ h1{
   outline: none; /* Remove outline */
   opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
   border-radius: 50px;
+  margin-top: 10%;
+  float:left;
+  -webkit-appearance: slider-vertical; /* WebKit */
 }
 
 /* Mouse-over effects */
-.slider:hover {
+.swap-slider:hover {
   opacity: 1; /* Fully shown on mouse-over */
 }
 
 /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
-.slider::-webkit-slider-thumb {
+.swap-slider::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
   appearance: none;
   width: 25px;
@@ -74,7 +72,7 @@ h1{
   border-radius: 50px;
 }
 
-.slider::-moz-range-thumb {
+.swap-slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
   background: #F0CA64;

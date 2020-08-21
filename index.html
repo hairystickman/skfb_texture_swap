@@ -31,7 +31,7 @@
 
 <body>
     <header>
-      <h1>Sketchfab API texture mixer (v.01)</h1>
+      <h1>Sketchfab API texture mixer (v.02)</h1>
     </header>
 
 
@@ -53,15 +53,29 @@
     </div>
 
     <!-- the controls and preview images, hidden until the sketchfab model has loaded-->
-    <div id = "swapper_controls" class="swapper_controls invisible">
-      <!-- preview images either side of the slider as a guide could be the texture files if you want -->
+    <div id = "swapper-controls" class="swapper-controls invisible">
+      <!-- preview images either side of the slider as a guide could be the texture files if you want-->
       <img id="preview1" class="preview left" src = "images/preview2.jpg"  />
       <img id="preview2" class="preview right" src = "images/preview1.jpg" />
 
       <!-- the slider controller -->
-      <div class="slider-container">
-        <!--findme:  mouse are used events to swap the canvas to smaller size while sliding (faster) requires the skfb_texture_swap.js -->
-        <input type="range" min="1" max="100" value="100" class="slider" id="slider">
+      <div id = "slider-container" class="slider-container">
+        <!--findme:  mouse events are used to swap the canvas to smaller size while sliding (faster) requires the skfb_texture_swap.js -->
+        <!--findme:  the contents of this div is moved into the sketchfab api gui -->
+        <input orient="vertical" type="range" min="1" max="100" value="100" style="
+          -webkit-appearance: none;
+          appearance: none;
+          height: 25px; /* Specified height */
+          background: #111; /* Grey background */
+          outline: none; /* Remove outline */
+          opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+          border-radius: 50px;
+          left:40%;
+          right:40%;
+          bottom:10px;
+          position:absolute;"
+          id="swap-slider">
+
       </div>
 
       <!-- a mega-detail button - ups the texture displayed while held (be patient) -->

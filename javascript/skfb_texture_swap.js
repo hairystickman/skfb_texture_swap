@@ -66,6 +66,10 @@ function ready(){
       console.error('Sketchfab API error');
   };
 
+
+
+
+
   // flag used for registering the materials with the api only once
   // but not autmatically replacing the default texture till UI
   // element is used
@@ -73,7 +77,7 @@ function ready(){
 
 
   // slider set up
-  var slider = document.getElementById("slider");
+  var slider = document.getElementById("swap-slider");
   var output = document.getElementById("sliderValue");
   output.innerHTML = slider.value; // Display the default slider value
 
@@ -162,8 +166,9 @@ function ready(){
 
               // show the controls
           		console.log('viewer ready');
-              document.getElementById("swapper_controls").classList.add("fade-in");
-              document.getElementById("swapper_controls").classList.remove("invisible");
+              document.getElementById("swapper-controls").classList.add("fade-in");
+              document.getElementById("swapper-controls").classList.remove("invisible");
+
 
 
 
@@ -235,7 +240,20 @@ function ready(){
                   udpateTexture(apiSkfb);
                 }
           });
+
+
+          // nab the gui div in the sketchfab viewer
+          var newParent = document.getElementById('api-frame').contentWindow.document.getElementsByClassName('gui')[0];
+          var oldParent = document.getElementById('slider-container');
+
+          // loop through and take anything inside the container and shove it into the sketchfab controls
+          while (oldParent.childNodes.length > 0) {
+              newParent.appendChild(oldParent.childNodes[0]);
+          }
       });
+
+
+
   };
 
 
