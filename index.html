@@ -62,7 +62,7 @@
       <div id = "slider-container" class="slider-container">
         <!--findme:  mouse events are used to swap the canvas to smaller size while sliding (faster) requires the skfb_texture_swap.js -->
         <!--findme:  the contents of this div is moved into the sketchfab api gui -->
-        <input orient="vertical" type="range" min="1" max="100" value="100" style="
+        <input type="range" min="1" max="100" value="100" class="swap-slider" style="
           -webkit-appearance: none;
           appearance: none;
           height: 25px; /* Specified height */
@@ -101,6 +101,7 @@
       <p>
         A brief foray into the Sketchfab API for the mixing of 2 textures. <br />
       </p>
+
       <p>
         Defualt method uses a hidden canvas to mix textures. <br />
         Lo fi texture used while sliding.
@@ -110,12 +111,15 @@
         This is faster, but emit map needs to be loaded and set at 0.01 in SketchFab <br />
       </p>
       <p>
-        Additional comments in source, and all available on <a href ="https://github.com/hairystickman/skfb_texture_swap">Github </a> <br />
+        Additional comments in source.<br />
       </p>
       <p>
-        Unfinished.<br />
+        More yet to be done. Chip in on  <a href ="https://github.com/hairystickman/skfb_texture_swap">Github </a>
       </p>
-      <img src="images/hsmp-inproduction.png" width="500" style= "margin:100px;">
+      <p>
+        **Slider bar hooks into SketchFab gui for full screen access, depending on same origin restrictions <br />
+      </p>
+      <img src="images/hsmp-inproduction.png" width="500" style= "margin-top:100px;">
     </div>
 
 

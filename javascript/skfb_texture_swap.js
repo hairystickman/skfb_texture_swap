@@ -114,7 +114,6 @@ function ready(){
 
 
   function udpateTexture(api, quality = 0.92) {
-      console.log ('updating texture');
       // render the current canvas into a bit stream to be sent to the texture
       var url = c.toDataURL('image/png', quality);
 
@@ -189,6 +188,8 @@ function ready(){
       api.start(function() {
           // wait for the viewer to be active
           api.addEventListener('viewerready', function() {
+
+            // texture lists for bug tracking
              api.getTextureList( function( err, textures ) {
                       console.log('textures');
             			    console.log( textures );
@@ -267,7 +268,6 @@ function ready(){
 //              function sliderMouseUp () {
                 slider.onmouseup = function () {
                   // resize the canvas to be small and fast
-                  console.log('up');
                   setCanvasSize(ctx,mid)
 
                   // mix images at a larger size
