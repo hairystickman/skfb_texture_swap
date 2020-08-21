@@ -31,7 +31,7 @@
 
 <body>
     <header>
-      <h1>Sketchfab API texture mixer (v.02)</h1>
+      <h1>Sketchfab API texture mixer (v.03)</h1>
     </header>
 
 
@@ -82,6 +82,15 @@
       <div id="btnDetail" class="button centre">
         <span id="sliderValue" class="centre" alt"load big res texture">sharp</span>
       </div>
+      <div class="mode-controls">
+        <span class="label">Mode</span> <br/>
+        <span class="label">canvas mixer</span>
+        <label class="switch">
+          <input id = "mode-toggle" type="checkbox">
+        <span class="mode-toggle round"></span>
+      </label>
+      <span class="label">channel mixer</span>
+    </div>
     </div>
 
 
@@ -91,24 +100,24 @@
     <div class="description">
       <p>
         A brief foray into the Sketchfab API for the mixing of 2 textures. <br />
-        It uses a hidden html canvas and reduces the images on the fly when <br />
-        the slider is moved to speed things up.</p>
-      <p>
-        Press and hold (be patient) the big yellow button to load a <br />
-        higher res texture for a lovely detailed view <br />
       </p>
       <p>
-        Currently only works on models with one material, and not older models. <br />
-        Styles, layout and functionality are in no way optomized <br />
-        and it is a matter of blind faith that it will work for other people.
+        Defualt method uses a hidden canvas to mix textures. <br />
+        Lo fi texture used while sliding.
+      </p>
+      <p>
+        Second method uses the 'Emit' channel. <br />
+        This is faster, but emit map needs to be loaded and set at 0.01 in SketchFab <br />
       </p>
       <p>
         Additional comments in source, and all available on <a href ="https://github.com/hairystickman/skfb_texture_swap">Github </a> <br />
       </p>
       <p>
-        * If trying it yourself locally you may need to disable 'local file restrictions'.<br />
+        Unfinished.<br />
       </p>
+      <img src="images/hsmp-inproduction.png" width="500" style= "margin:100px;">
     </div>
+
 
 
   <footer>

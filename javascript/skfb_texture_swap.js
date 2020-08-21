@@ -81,6 +81,8 @@ function ready(){
   var output = document.getElementById("sliderValue");
   output.innerHTML = slider.value; // Display the default slider value
 
+  // mode switch
+  var mode = document.getElementById("mode-toggle");
 
   // canvas set up
   // findme todo: Setup multiple canvases for multi-texture objects
@@ -118,6 +120,32 @@ function ready(){
 
       //update the registered texture with the new image data
       api.updateTexture(url, mixedTextureId);
+  }
+
+
+  function mixChannels(api){
+    // a very helpful example  https://jsfiddle.net/sketchfab/rabweuzd/
+
+    // m.channels.EmitColor.factor = 1;
+    for (var i = 0; i < arrMaterials.length; i++) {
+      var m = arrMaterials[i]
+
+      m.channels['EmitColor'].factor = 1 - slider.value/100;
+
+/*
+      use uid to set the texture if the emit isn't on when lodaded
+      if Emit is 0, or off then the texture won't load.
+      need to hack it, either 0.01 emit works, or apply texture on a hidden object
+
+      m.channels['EmitColor'].enable = true;
+      m.channels['EmitColor'].texture = {
+          uid: 'e4265377f6e441cbb525bc89a470f643'
+      };
+*/
+
+      m.channels.AlbedoPBR.factor = slider.value/100;
+      api.setMaterial(m);
+    }
   }
 
 
@@ -161,6 +189,13 @@ function ready(){
       api.start(function() {
           // wait for the viewer to be active
           api.addEventListener('viewerready', function() {
+             api.getTextureList( function( err, textures ) {
+                      console.log('textures');
+            			    console.log( textures );
+            			    console.log( textures[textures.length-1].uid );
+            			} );
+
+
               // remove the loading message
               document.getElementById("loading").classList.add("hidden");
 
@@ -168,9 +203,6 @@ function ready(){
           		console.log('viewer ready');
               document.getElementById("swapper-controls").classList.add("fade-in");
               document.getElementById("swapper-controls").classList.remove("invisible");
-
-
-
 
               // Only done once
               // get materials on current model and output in console if need to get a name of one later
@@ -192,17 +224,22 @@ function ready(){
               // Slider handling
               // Update the current slider value (each time you drag the slider handle)
               slider.oninput = function() {
-                setCanvasSize(ctx,min);
-
-                mixTextures();                  // mix the images in the canvas
-                // check if the texture is registered already so the swap is only made when the slider is used
-                if (!isRegistered){
-                  registerTexture(api);         // register textures and apply canvas content
-                  isRegsitered = true;
+                // basic mode function
+                if (mode.checked){
+                  // use the emit channel mixer
+                  mixChannels(api);
                 }else{
-                  udpateTexture(apiSkfb, 0.1);    // update the model texture
+                  // use a local canvas
+                  setCanvasSize(ctx,min);
+                  mixTextures();                  // mix the images in the canvas
+                  // check if the texture is registered already so the swap is only made when the slider is used
+                  if (!isRegistered){
+                    registerTexture(api);         // register textures and apply canvas content
+                    isRegsitered = true;
+                  }else{
+                    udpateTexture(apiSkfb, 0.1);    // update the model texture
+                  }
                 }
-
                 output.innerHTML = this.value;  // update text display
               }
 
