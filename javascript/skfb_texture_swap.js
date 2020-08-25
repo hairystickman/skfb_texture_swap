@@ -36,6 +36,29 @@ function ready(){
 
 
 
+// fullscreen set up
+    var btnFullScreen = document.getElementById("btnFullScreen");
+    btnFullScreen.onmousedown = function () {
+      alert('clicked');
+      openFullscreen();
+    }
+
+  // Fullscreener (from w3schools)
+  var fullscreener = document.getElementById("skfb_frame");
+  function openFullscreen() {
+    if (fullscreener.requestFullscreen) {
+      fullscreener.requestFullscreen();
+    } else if (fullscreener.mozRequestFullScreen) { /* Firefox */
+      fullscreener.mozRequestFullScreen();
+    } else if (fullscreener.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+      fullscreener.webkitRequestFullscreen();
+    } else if (fullscreener.msRequestFullscreen) { /* IE/Edge */
+      fullscreener.msRequestFullscreen();
+    }
+  }
+
+
+
   // Sketchfab Viewer API set up
   // this is the unique ID of the model in the viewr from the sketchfab URL
   if(typeof script_id.getAttribute('data-uid') === undefined) {
@@ -77,6 +100,7 @@ function ready(){
 
 
   // slider set up
+  var btnDetail = document.getElementById("btnDetail");
   var slider = document.getElementById("swap-slider");
   var output = document.getElementById("sliderValue");
   output.innerHTML = slider.value; // Display the default slider value
@@ -226,7 +250,7 @@ function ready(){
               // Update the current slider value (each time you drag the slider handle)
               slider.oninput = function() {
                 // basic mode function
-                if (mode.checked){
+                if (!mode.checked){
                   // use the emit channel mixer
                   mixChannels(api);
                 }else{
@@ -245,7 +269,6 @@ function ready(){
               }
 
               // Button handling
-              // findme todo: change into a toggle (?)
               btnDetail.onmousedown = function () {
                 setCanvasSize(ctx,max);
                 mixTextures();
@@ -278,15 +301,15 @@ function ready(){
                 }
           });
 
-
+          // deprecated - move item into iframe. not permitted.
           // nab the gui div in the sketchfab viewer
-          var newParent = document.getElementById('api-frame').contentWindow.document.getElementsByClassName('gui')[0];
-          var oldParent = document.getElementById('slider-container');
+  //        var newParent = document.getElementById('api-frame').contentWindow.document.getElementsByClassName('gui')[0];
+    //      var oldParent = document.getElementById('slider-container');
 
           // loop through and take anything inside the container and shove it into the sketchfab controls
-          while (oldParent.childNodes.length > 0) {
-              newParent.appendChild(oldParent.childNodes[0]);
-          }
+      //    while (oldParent.childNodes.length > 0) {
+        //      newParent.appendChild(oldParent.childNodes[0]);
+          //}
       });
 
 

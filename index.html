@@ -31,7 +31,7 @@
 
 <body>
     <header>
-      <h1>Sketchfab API texture mixer (v.03)</h1>
+      <h1>Sketchfab API texture mixer (v0.04 WIP)</h1>
     </header>
 
 
@@ -44,52 +44,44 @@
     <img id="texture1" src = "images/texture2.jpg" class="hidden" />
     <img id="texture2" src = "images/texture1.jpg" class="hidden" />
     <!-- findme todo: - make it work for multiple materials -->
+    <div id="skfb_frame">
+      <!-- this section displays the model via the sketchfab servers-->
+      <iframe src="" id="api-frame" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="vr"></iframe>
 
-    <!-- this section displays the model via the sketchfab servers-->
-    <iframe src="" id="api-frame" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="vr"></iframe>
-
-    <div id="loading" class="description loading controls">
-      waiting for it all to load...
+      <div id="loading" class="description loading controls">
+        waiting for it all to load...
+      </div>
+      <!-- the slider controller -->
+      <div id = "swapper-controls" class="swapper-controls invisible">
+        <div id = "slider-container" class="slider-container">
+          <!--findme:  mouse events are used to swap the canvas to smaller size while sliding (faster) requires the skfb_texture_swap.js -->
+          <!--findme:  the contents of this div is moved into the sketchfab api gui -->
+          <input type="range" min="1" max="100" value="100" class="swap-slider"
+            id="swap-slider">
+        </div>
+        <button class="button centre" style= "width:50px; height: 50px;" id="btnFullScreen">
+          <span>><</span>
+        </button>
+      </div>
     </div>
 
     <!-- the controls and preview images, hidden until the sketchfab model has loaded-->
-    <div id = "swapper-controls" class="swapper-controls invisible">
+    <div id = "previewPanel" class="">
       <!-- preview images either side of the slider as a guide could be the texture files if you want-->
       <img id="preview1" class="preview left" src = "images/preview2.jpg"  />
       <img id="preview2" class="preview right" src = "images/preview1.jpg" />
-
-      <!-- the slider controller -->
-      <div id = "slider-container" class="slider-container">
-        <!--findme:  mouse events are used to swap the canvas to smaller size while sliding (faster) requires the skfb_texture_swap.js -->
-        <!--findme:  the contents of this div is moved into the sketchfab api gui -->
-        <input type="range" min="1" max="100" value="100" class="swap-slider" style="
-          -webkit-appearance: none;
-          appearance: none;
-          height: 25px; /* Specified height */
-          background: #111; /* Grey background */
-          outline: none; /* Remove outline */
-          opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-          border-radius: 50px;
-          left:40%;
-          right:40%;
-          bottom:10px;
-          position:absolute;"
-          id="swap-slider">
-
-      </div>
-
       <!-- a mega-detail button - ups the texture displayed while held (be patient) -->
       <div id="btnDetail" class="button centre">
         <span id="sliderValue" class="centre" alt"load big res texture">sharp</span>
       </div>
       <div class="mode-controls">
         <span class="label">Mode</span> <br/>
-        <span class="label">canvas mixer</span>
+        <span class="label">channel mixer</span>
         <label class="switch">
           <input id = "mode-toggle" type="checkbox">
         <span class="mode-toggle round"></span>
       </label>
-      <span class="label">channel mixer</span>
+      <span class="label">canvas mixer</span>
     </div>
     </div>
 
@@ -103,21 +95,21 @@
       </p>
 
       <p>
-        Defualt method uses a hidden canvas to mix textures. <br />
-        Lo fi texture used while sliding.
-      </p>
-      <p>
-        Second method uses the 'Emit' channel. <br />
+        Default method uses the 'Emit' channel. <br />
         This is faster, but emit map needs to be loaded and set at 0.01 in SketchFab <br />
       </p>
+
+      <p>
+        Second (original) method uses a hidden canvas to mix textures. <br />
+        Lo fi texture used while sliding. (may require 'disable local-file restrictions')
+      </p>
+
+
       <p>
         Additional comments in source.<br />
       </p>
       <p>
         More yet to be done. Chip in on  <a href ="https://github.com/hairystickman/skfb_texture_swap">Github </a>
-      </p>
-      <p>
-        **Slider bar hooks into SketchFab gui for full screen access, depending on same origin restrictions <br />
       </p>
       <img src="images/hsmp-inproduction.png" width="500" style= "margin-top:100px;">
     </div>
