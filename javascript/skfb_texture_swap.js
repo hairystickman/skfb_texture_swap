@@ -37,15 +37,20 @@ function ready(){
 
 
 // fullscreen set up
-    var btnFullScreen = document.getElementById("btnFullScreen");
-    btnFullScreen.onmousedown = function () {
-      alert('clicked');
-      openFullscreen();
+    var fullscreener = document.getElementById("skfb_frame");     // the frame to make fullscreen
+    var btnFullScreen = document.getElementById("btnFullScreen"); // the button
+    btnFullScreen.onmousedown = function () {                     // the event
+      if (fullscreener.classList.contains('fullscreen')){
+        closeFullscreen();
+      }else{
+        openFullscreen();
+      }
     }
 
-  // Fullscreener (from w3schools)
-  var fullscreener = document.getElementById("skfb_frame");
+
+// Fullscreener (from w3schools)
   function openFullscreen() {
+    fullscreener.classList.add('fullscreen');    //swap view size
     if (fullscreener.requestFullscreen) {
       fullscreener.requestFullscreen();
     } else if (fullscreener.mozRequestFullScreen) { /* Firefox */
@@ -55,7 +60,24 @@ function ready(){
     } else if (fullscreener.msRequestFullscreen) { /* IE/Edge */
       fullscreener.msRequestFullscreen();
     }
+
   }
+
+
+  function closeFullscreen() {
+    fullscreener.classList.remove('fullscreen'); //swap view size
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) { /* Firefox */
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE/Edge */
+      document.msExitFullscreen();
+    }
+  }
+
+
 
 
 
@@ -213,21 +235,27 @@ function ready(){
           // wait for the viewer to be active
           api.addEventListener('viewerready', function() {
 
-            // texture lists for bug tracking
+            /* texture lists for bug tracking
              api.getTextureList( function( err, textures ) {
                       console.log('textures');
             			    console.log( textures );
             			    console.log( textures[textures.length-1].uid );
             			} );
-
+              */
 
               // remove the loading message
               document.getElementById("loading").classList.add("hidden");
 
               // show the controls
           		console.log('viewer ready');
-              document.getElementById("swapper-controls").classList.add("fade-in");
-              document.getElementById("swapper-controls").classList.remove("invisible");
+              var elements = document.getElementsByClassName("viewer-controls");
+              console.log('elements' + elements.length);
+              for (var i = 0; i < elements.length; i++) {
+                  console.log('i ' + i);
+                  elements[i].classList.add("fade-in");
+                  elements[i].classList.remove("invisible");
+              }
+
 
               // Only done once
               // get materials on current model and output in console if need to get a name of one later
@@ -301,15 +329,6 @@ function ready(){
                 }
           });
 
-          // deprecated - move item into iframe. not permitted.
-          // nab the gui div in the sketchfab viewer
-  //        var newParent = document.getElementById('api-frame').contentWindow.document.getElementsByClassName('gui')[0];
-    //      var oldParent = document.getElementById('slider-container');
-
-          // loop through and take anything inside the container and shove it into the sketchfab controls
-      //    while (oldParent.childNodes.length > 0) {
-        //      newParent.appendChild(oldParent.childNodes[0]);
-          //}
       });
 
 
@@ -323,7 +342,10 @@ function ready(){
       error: error,
       autostart: 1,
       camera: 0,
-      preload: 1
+      preload: 1,
+      ui_watermark: 0,
+      ui_infos: 0,
+      ui_fadeout: 0
   });
 
 }

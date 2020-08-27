@@ -31,9 +31,8 @@
 
 <body>
     <header>
-      <h1>Sketchfab API texture mixer (v0.04 WIP)</h1>
+      <h1>Sketchfab API texture mixer (v0.04)</h1>
     </header>
-
 
 
 
@@ -52,21 +51,19 @@
         waiting for it all to load...
       </div>
       <!-- the slider controller -->
-      <div id = "swapper-controls" class="swapper-controls invisible">
-        <div id = "slider-container" class="slider-container">
-          <!--findme:  mouse events are used to swap the canvas to smaller size while sliding (faster) requires the skfb_texture_swap.js -->
-          <!--findme:  the contents of this div is moved into the sketchfab api gui -->
-          <input type="range" min="1" max="100" value="100" class="swap-slider"
-            id="swap-slider">
-        </div>
-        <button class="button centre" style= "width:50px; height: 50px;" id="btnFullScreen">
-          <span>><</span>
-        </button>
+      <div id = "slider-container" class="slider-container invisible viewer-controls">
+        <!--findme:  mouse events are used to swap the canvas to smaller size while sliding (faster) requires the skfb_texture_swap.js -->
+        <!--findme:  the contents of this div is moved into the sketchfab api gui -->
+        <input type="range" min="1" max="100" value="100" class="swap-slider"
+          id="swap-slider">
       </div>
+      <button class="button centre invisible viewer-controls" style= "width:35x; height: 35px;" id="btnFullScreen">
+        <span>+</span>
+      </button>
     </div>
 
     <!-- the controls and preview images, hidden until the sketchfab model has loaded-->
-    <div id = "previewPanel" class="">
+    <div id = "swapper-controls" class="invisible viewer-controls">
       <!-- preview images either side of the slider as a guide could be the texture files if you want-->
       <img id="preview1" class="preview left" src = "images/preview2.jpg"  />
       <img id="preview2" class="preview right" src = "images/preview1.jpg" />
@@ -84,10 +81,6 @@
       <span class="label">canvas mixer</span>
     </div>
     </div>
-
-
-
-
 
     <div class="description">
       <p>
