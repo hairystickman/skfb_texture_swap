@@ -1,7 +1,506 @@
-// Special thanks to O. Murray for suggesting exploring this and providing the incentive to try this out.
-// This code drew on free online resources and tutorials.
+/*
+ Special thanks to O. Murray for suggesting exploring this and providing the incentive to try this out.
+ This code drew on free online resources and tutorials.
+ additional references in code
 
-// Please improve, build and share it freely also
+ Please improve, build and share it freely also
+ This includes hard coded sections to handle an example scene for the Kings Chamber demo,
+ available at the time of writing at http://ommphoto.ca/kings_chamber-v01/kings_chamber.html
+
+  This code is very much a WORK IN PROGRESS, use at your own peril
+
+  Note on notes
+  Tasks planned for the future, references, debug calls and other in-progress notes are identified witht he prefix 'findme'
+*/
+
+
+
+/* functions that need to called from external scripts/pages*/
+
+  function selectScene (index) {
+        /*
+          findme todo: Only a shim for handling only small number of scenes with the possible selections 'baked in'.
+          Modify to load info from a json file.
+
+          -1 check ignores clicks on the model that aren't an annotation
+        */
+
+
+            if (index >-1){
+
+
+              $('.scene-active').removeClass('scene-active');
+              // note index starts at 0. needs to be compensated
+              var scene = "#scene-" + index;
+              $(scene).addClass('scene-active')
+
+
+            // Detects if the scene has an inscription to load in the viewer or not and hides if not.
+            // This is a hard coded temporary fix
+            // Findme todo: replace with dynamic method to listen if an annotation has a finished inscription or not.
+            if (index == 1) {
+//                  container.style.clipPath = 'inset(0 0 100% 0)';
+              $('#osd-container').css('opacity','0');
+              setTimeout(function(){ $('#osd-container').addClass('invisible'); }, 200);
+
+              $('#inscription-tab-li').addClass('d-none');
+              $('#inscription-tab').removeClass('active');
+              $('#gallery-tab').addClass('active');
+              initialiseGallery();//only runs if not already initialised (ie not viewed yet)
+              $('#osd-gallery-container').removeClass('invisible');
+              $('#osd-gallery-container').css('opacity','100');
+            }else{
+              /* displays the sample viewer */
+              $('#osd-container').removeClass('invisible');
+              $('#osd-container').css('opacity','100');
+              $('#inscription-tab-li').removeClass('d-none');
+              $('#inscription-tab').addClass('active');
+              $('#gallery-tab').removeClass('active');
+
+              //gallery.style.marginTop = '0';
+              //gallery.style.opacity = 0;
+
+              setTimeout(function() {
+                $('#osd-gallery-container').addClass('invisible');
+//                      osdViewer.setMode('curtain',images);
+//                      container.style.opacity = 1;
+//                      container.style.clipPath = 'inset(0 0 0 0)';
+              }, 200);
+            }
+
+
+            // findme todo: proceduralize to handle n number of scenes
+            // Set the content based on the selection
+            if (index == 0){
+              //findme todo: hides additional tools when ready. turn this into an easy system using a flag.
+              //$("#inscription-tools").addClass("d-none");
+              $("#accordion-inscription-tools").addClass("d-none");
+              //find me todo: show/hide or enabl/disable illustation slider
+
+              $(".osdGalleryViewer").removeClass("hidden");
+              // set the title
+              $('#title').text('Plate 83: forthcoming');
+
+              // set the description text
+              $.get('pages/page01.txt', function (data) {
+                  $("#text-container").html(data);
+              });
+
+
+
+
+              // switch the viewer
+              // normall this bit of code won't be called called if the page starts with this scene.
+              if (osdViewer0 == undefined){
+                  tileSources = ['manifests/pl83_photo.json','manifests/pl82_archive.json','manifests/pl83_drawing.json','manifests/pl82_archive.json'];
+                  makeCurtainSyncViewer(tileSources,0);
+
+
+                // set up the scalebar for the viewer
+                osdViewer0.getViewer().scalebar({
+                  minWidth: '200px',
+                  pixelsPerMeter: 5197.5,
+                  color: '#000',
+                  barThickness: 5,
+                  stayInsideImage: 1,
+                  backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                  xOffset: 10,
+                  yOffset: 70,
+                  location: OpenSeadragon.ScalebarLocation.TOP_LEFT,
+                  stayInsideImage: false,
+                  type: 'microscopy'
+                });
+              }
+
+              //swap visible viewers
+              $(".osdViewer").addClass("hidden");
+              $("#osd-viewer-0").removeClass("hidden");
+
+              // pass the id of the current viewer
+              currentViewer = osdViewer0;
+              // update the split to match the current pos of the nubbin
+              currentViewer.setSplit();
+
+
+              // findme todo: automate
+              // Plate 85, East Wall: Decoration Surrounding the Doorway (pl 85)
+              galleryTileSources = ['manifests/entrance_1303.json','manifests/entrance_pl82.json'];
+
+
+
+              //findme todo: make more cleverer
+              // calls open gallery here as a shim incase the gallery is already open
+              osdGalleryViewer.open(galleryTileSources,0);
+
+            }
+            // index 2 = page3
+            if (index == 2) {
+              //findme todo: hides additional tools when ready. turn this into an easy system using a flag.
+                $("#inscription-tools").removeClass("d-none");
+                $("#accordion-inscription-tools").removeClass("d-none");
+                // set the title
+                $('#title').text('Plate 87: Iunmutef with offerings and officiants in the presence of the king and queen');
+
+                // set the description text
+                $.get('pages/page03.txt', function (data) {
+                    $("#text-container").html(data);
+                });
+
+                // swap visible viewers
+                // viewer container must be shown before initializing the viewer otherwise it will break
+                $(".osdViewer").addClass("hidden");
+                $("#osd-viewer-2").removeClass("hidden");
+
+                // switch the viewer
+                //initialise if not already viewed
+                if (osdViewer2 == undefined){
+                  //other images
+                  console.log('osdViewer2 undefined');
+                  tileSources = ['manifests/pl86_photo.json','manifests/pl86_archival.json','manifests/pl87_drawing.json','manifests/pl87_drawing.json'];
+                  osdViewer2 = makeCurtainSyncViewer(tileSources,2);
+
+                  // set up the scalebar for the viewer
+                  osdViewer2.getViewer().scalebar({
+                    minWidth: '200px',
+                    pixelsPerMeter: 5197.5,
+                    color: '#000',
+                    barThickness: 5,
+                    stayInsideImage: 1,
+                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                    xOffset: 10,
+                    yOffset: 70,
+                    location: OpenSeadragon.ScalebarLocation.TOP_LEFT,
+                    stayInsideImage: false,
+                    type: 'microscopy'
+                  });
+                // findme note: mini console utility/tool for getting OSD image coordinates for setting up polygons
+                // findme ref: simplified from https://openseadragon.github.io/examples/viewport-coordinates/
+                osdViewer2.getViewer().addHandler('canvas-click', function(event) {
+                    // Convert that to viewport coordinates, the lingua franca of OpenSeadragon coordinates.
+                    var viewportPoint = currentViewer.getViewer().viewport.pointFromPixel(event.position);
+                    console.log(viewportPoint.toString());
+                });
+
+
+
+                  /*
+                    findme todo: this hard coded overlay rectangles for demo only
+                    replace with more dynamic system
+                  */
+                  var svgOverlay = osdViewer2.getViewer().svgOverlay();
+
+                  var svgLine1 = d3.select(svgOverlay.node()).append("polygon")
+                      .style('fill' , 'rgba(0,0,0,0)')
+                      .style('stroke-width' , '0.002')
+                      .attr('id','svg-line1')
+                      .attr("class","highlight highlight-hidden")
+                      /* findme note: for now get coordinates from OS viewer */
+                      /* top left xy, bottom left xy, bottom right xy, top right xy */
+                      .attr("points", '0.18 0.26,0.21 0.26,0.21 0.41,0.18 0.41');
+
+                  var svgLine2 = d3.select(svgOverlay.node()).append("polygon")
+                      .style('fill' , 'rgba(0,0,0,0)')
+                      .style('stroke-width' , '0.002')
+                      .attr('id','svg-line2')
+                      .attr("class","highlight highlight-hidden")
+                      /* findme note: for now get coordinates from OS viewer */
+                      /* top left xy, bottom left xy, bottom right xy, top right xy */
+                      .attr("points", '0.755 0.125,0.755 0.2,0.785 0.2,0.785 0.125');
+
+                  var svgLine3 = d3.select(svgOverlay.node()).append("polygon")
+                      .style('fill' , 'rgba(0,0,0,0)')
+                      .style('stroke-width' , '0.002')
+                      .attr('id','svg-line3')
+                      .attr("class","highlight highlight-hidden")
+                      /* findme note: for now get coordinates from OS viewer */
+                      /* top left xy, bottom left xy, bottom right xy, top right xy */
+                      .attr("points", '0.755 0.1,0.755 0.125,0.84 0.125,0.84 0.1');
+
+
+
+                  var svgLine4 = d3.select(svgOverlay.node()).append("polygon")
+                      .style('fill' , 'rgba(0,0,0,0)')
+                      .style('stroke-width' , '0.002')
+                      .attr('id','svg-line4')
+                      .attr("class","highlight highlight-hidden")
+                      /* findme note: for now get coordinates from OS viewer */
+                      /* top left xy, bottom left xy, bottom right xy, top right xy */
+                      .attr("points", '0.785 0.125,0.785 0.2,0.9 0.2,0.9 0.125');
+
+
+                  var svgLine5 = d3.select(svgOverlay.node()).append("polygon")
+                      .style('fill' , 'rgba(0,0,0,0)')
+                      .style('stroke-width' , '0.002')
+                      .attr('id','svg-line5')
+                      .attr("class","highlight highlight-hidden")
+                      /* findme note: for now get coordinates from OS viewer */
+                      /* top left xy, bottom left xy, bottom right xy, top right xy */
+                      .attr("points", '0.895 0.15,0.895 0.235,0.92 0.235,0.92 0.2,0.94 0.2,0.94 0.2,0.94 0.175,0.92 0.175,0.92 0.15');
+
+
+
+                  var svgLine6 = d3.select(svgOverlay.node()).append("polygon")
+                      .style('fill' , 'rgba(0,0,0,0)')
+                      .style('stroke-width' , '0.002')
+                      .attr('id','svg-line6')
+                      .attr("class","highlight highlight-hidden")
+                      /* findme note: for now get coordinates from OS viewer */
+                      /* top left xy, bottom left xy, bottom right xy, top right xy */
+                      .attr("points", '0.06 0.1, 0.06 0.42, 0.09 0.42, 0.09 0.205, 0.21 0.205, 0.21 0.1 ');
+
+
+                  var svgLine7 = d3.select(svgOverlay.node()).append("polygon")
+                      .style('fill' , 'rgba(0,0,0,0)')
+                      .style('stroke-width' , '0.002')
+                      .attr('id','svg-line7')
+                      .attr("class","highlight highlight-hidden")
+                      /* findme note: for now get coordinates from OS viewer */
+                      /* top left xy, bottom left xy, bottom right xy, top right xy */
+                      .attr("points", '0.755 0.2, 0.755 0.275, 0.785 0.275, 0.785 0.2');
+
+
+                var svgLine8 = d3.select(svgOverlay.node()).append("polygon")
+                    .style('fill' , 'rgba(0,0,0,0)')
+                    .style('stroke-width' , '0.002')
+                    .attr('id','svg-line8')
+                    .attr("class","highlight highlight-hidden")
+                    /* findme note: for now get coordinates from OS viewer */
+                    /* top left xy, bottom left xy, bottom right xy, top right xy */
+                    .attr("points", '0.33 0.1, 0.33 0.18, 0.65 0.18, 0.65 0.1');
+
+                var svgLine9 = d3.select(svgOverlay.node()).append("polygon")
+                    .style('fill' , 'rgba(0,0,0,0)')
+                    .style('stroke-width' , '0.002')
+                    .attr('id','svg-line9')
+                    .attr("class","highlight highlight-hidden")
+                    /* findme note: for now get coordinates from OS viewer */
+                    /* top left xy, bottom left xy, bottom right xy, top right xy */
+                    .attr("points", '0.44 0.26, 0.44 0.31, 0.46 0.31,0.46 0.27,0.6 0.27,0.6 0.29, 0.61 0.29, 0.61 0.27, 0.59 0.27,0.59 0.26');
+
+                  var svgLine10 = d3.select(svgOverlay.node()).append("polygon")
+                      .style('fill' , 'rgba(0,0,0,0)')
+                      .style('stroke-width' , '0.002')
+                      .attr('id','svg-line10')
+                      .attr("class","highlight highlight-hidden")
+                      /* findme note: for now get coordinates from OS viewer */
+                      /* top left xy, bottom left xy, bottom right xy, top right xy */
+                      .attr("points", '0.35 0.335, 0.35 0.35, 0.43 0.35, 0.43 0.41,0.49 0.41,0.49 0.37,0.54 0.37, 0.63,0.37, 0.63 0.335');
+
+
+                }
+
+
+                currentViewer = osdViewer2;
+                currentViewer.setSplit();
+
+
+                // findme todo: automate
+                // Plate 87, South Wall: Iunmutef with offerings and officiants (pl 87)
+                galleryTileSources =   [
+                  'manifests/south_1297.json',
+                  'manifests/south_1298.json',
+                  'manifests/south_7556.json',
+                  'manifests/south_7557.json'
+                ];
+
+                //findme todo: make more clevererv
+                // calls open gallery here as a shim incase the gallery is already open
+                osdGalleryViewer.open(galleryTileSources,0);
+
+                // set the gallery images
+                /* findme deprecated
+                osdGalleryViewer.open(
+                ['https://ids.lib.harvard.edu/ids/iiif/459754314/info.json',
+                'https://ids.lib.harvard.edu/ids/iiif/459754287/info.json',
+                'https://ids.lib.harvard.edu/ids/iiif/459754275/info.json',
+                'https://ids.lib.harvard.edu/ids/iiif/459754380/info.json',
+                'https://ids.lib.harvard.edu/ids/iiif/459754293/info.json',
+                'https://ids.lib.harvard.edu/ids/iiif/471821053/info.json'],0);
+                */
+
+
+
+            }
+
+            // findme todo: automate
+            // index 3 = page4
+            if (index == 3){
+              //findme todo: hides additional tools when ready. turn this into an easy system using a flag.
+              $("#inscription-tools").removeClass("d-none");
+              $(".osdGalleryViewer").removeClass("hidden");
+              $("#accordion-inscription-tools").addClass("d-none");
+              // set the title
+              $('#title').text('Plate 89: Iunmutef with offerings and officiants in the presence of the king and queen');
+
+              // set the description text
+              $.get('pages/page04.txt', function (data) {
+                  $("#text-container").html(data);
+
+
+              });
+
+              //swap visible viewers
+              // viewer container must be shown before initializing the viewer otherwise it will break
+              $(".osdViewer").addClass("hidden");
+              $("#osd-viewer-3").removeClass("hidden");
+
+
+
+              //initialise if not already viewed
+              if (osdViewer3 == undefined){
+                tileSources = ['manifests/pl89_photo.json','manifests/pl89_3047_archival.json','manifests/pl89_drawing.json','manifests/drawing_archival.json'];
+                osdViewer3 = makeCurtainSyncViewer(tileSources,3);
+
+
+                // set up the scalebar for the viewer
+                osdViewer3.getViewer().scalebar({
+                  minWidth: '200px',
+                  pixelsPerMeter: 5197.5,
+                  color: '#000',
+                  barThickness: 5,
+                  stayInsideImage: 1,
+                  backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                  xOffset: 10,
+                  yOffset: 70,
+                  location: OpenSeadragon.ScalebarLocation.TOP_LEFT,
+                  stayInsideImage: false,
+                  type: 'microscopy'
+                });
+
+
+              }
+              currentViewer = osdViewer3;
+              currentViewer.setSplit();
+
+
+              //3 Plate 89, North: Iunmutef with offerings and officiants (pl 89)
+              galleryTileSources =   [
+                'manifests/north_1300.json',
+                'manifests/north_1301.json',
+                'manifests/north_3047.json',
+                'manifests/north_3048.json',
+                'manifests/north_3049.json',
+                'manifests/north_pl88_neg.json',
+              ];
+
+              //findme todo: make more clevererv
+              // calls open gallery here as a shim incase the gallery is already open
+              osdGalleryViewer.open(galleryTileSources,0);
+
+              // set the gallery images
+              /* findme deprecated
+                osdGalleryViewer.open(
+                ['https://ids.lib.harvard.edu/ids/iiif/481665543/info.json',
+                  'https://ids.lib.harvard.edu/ids/iiif/472324273/info.json'],0
+                  */
+            }
+            //index 4 = page 5
+            if (index == 4){
+              $("#inscription-tools").removeClass("d-none");
+                $(".osdGalleryViewer").removeClass("hidden");
+                $("#accordion-inscription-tools").addClass("d-none");
+              // set the title
+              $('#title').text('Plate 91a and b: The King Offering Wine to Amun-Re');
+
+              // set the description text
+              $.get('pages/page05.txt', function (data) {
+                  $("#text-container").html(data);
+              });
+
+
+
+              //swap visible viewers
+              // viewer container must be shown before initializing the viewer otherwise it will break
+              $(".osdViewer").addClass("hidden");
+              $("#osd-viewer-4").removeClass("hidden");
+              // switch the viewer
+              //initialise if not already viewed
+              if (osdViewer4 == undefined){
+                tileSources = ['manifests/pl91_photo.json','manifests/pl91_archival.json','manifests/pl91_drawing.json','manifests/pl91_archival.json'];
+                osdViewer4 = makeCurtainSyncViewer(tileSources,4);
+
+
+                // set up the scalebar for the viewer
+                osdViewer4.getViewer().scalebar({
+                  minWidth: '200px',
+                  pixelsPerMeter: 5197.5,
+                  color: '#000',
+                  barThickness: 5,
+                  stayInsideImage: 1,
+                  backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                  xOffset: 10,
+                  yOffset: 70,
+                  location: OpenSeadragon.ScalebarLocation.TOP_LEFT,
+                  stayInsideImage: false,
+                  type: 'microscopy'
+                });
+
+
+              }
+              currentViewer = osdViewer4;
+              currentViewer.setSplit();
+
+              // 4 Plate 91, West Wall; The King, Embracing Ithyphallic Amun-Re (pl81A-B)
+              galleryTileSources =   [
+                'manifests/west_1299.json',
+                'manifests/west_7333.json',
+                'manifests/west_13646.json',
+                'manifests/west_13647.json',
+                'manifests/west_13654.json'
+              ];
+
+              //findme todo: make more clevererv
+              // calls open gallery here as a shim incase the gallery is already open
+              osdGalleryViewer.open(galleryTileSources,0);
+
+              /* findme deprecated
+
+              // set the gallery images
+                osdGalleryViewer.open(
+                ['https://ids.lib.harvard.edu/ids/iiif/481665543/info.json',
+                  'https://ids.lib.harvard.edu/ids/iiif/472324273/info.json'],0);
+
+                  */
+            }
+            //index 1 = page 2
+            if (index == 1){
+
+              //findme todo: hides additional tools when not available. turn this into an easy system using a flag.
+              $("#inscription-tools").addClass("d-none");
+
+              // set the title
+              $('#title').text('Plate 85: Decoration Surrounding the Doorway in the King’s Chamber');
+
+              // set the description text
+              $.get('pages/page02.txt', function (data) {
+                  $("#text-container").html(data);
+
+              });
+
+
+              //swap visible viewers
+              // viewer container must be shown before initializing the viewer otherwise it will break
+              $(".osdViewer").addClass("hidden");
+        //      $(".osdGalleryViewer").addClass("hidden");
+
+              galleryTileSources =   [
+                'manifests/east_13706.json',
+                'manifests/east_1302.json'
+              ];
+
+              osdGalleryViewer.open(galleryTileSources,0);
+
+            }
+
+
+
+        }
+  }
+
+
+
+
+
 
 
 // findme note: requires the sketchfab api to be loaded.
@@ -124,11 +623,8 @@ function ready(){
   // slider set up
   var btnDetail = document.getElementById("btnDetail");
   var slider = document.getElementById("swap-slider");
-  var output = document.getElementById("sliderValue");
-  output.innerHTML = slider.value; // Display the default slider value
+//  var sliderFullscreen = document.getElementById("swap-slider-fullscreen"); // the slider visible in fullscreen
 
-  // mode switch
-  var mode = document.getElementById("mode-toggle");
 
   // canvas set up
   // findme todo: Setup multiple canvases for multi-texture objects
@@ -228,6 +724,7 @@ function ready(){
 
 
 
+
   // kick off the code once the sketchfab api link is running
   var success = function(api) {
       apiSkfb = api;
@@ -249,9 +746,9 @@ function ready(){
               // show the controls
           		console.log('viewer ready');
               var elements = document.getElementsByClassName("viewer-controls");
-              console.log('elements' + elements.length);
+//              console.log('elements' + elements.length);
               for (var i = 0; i < elements.length; i++) {
-                  console.log('i ' + i);
+//                  console.log('i ' + i);
                   elements[i].classList.add("fade-in");
                   elements[i].classList.remove("invisible");
               }
@@ -269,7 +766,7 @@ function ready(){
                   for (var i = 0; i < arrMaterials.length; i++) {
                       var m = arrMaterials[i];
                       materialsByName[m.name] = m;
-                      console.log('pick a material ', m.name);
+//                      console.log('pick a material ', m.name);
                   }
               });
 
@@ -277,61 +774,32 @@ function ready(){
               // Slider handling
               // Update the current slider value (each time you drag the slider handle)
               slider.oninput = function() {
-                // basic mode function
-                if (!mode.checked){
-                  // use the emit channel mixer
+//                  sliderFullscreen.value = slider.value;
                   mixChannels(api);
-                }else{
-                  // use a local canvas
-                  setCanvasSize(ctx,min);
-                  mixTextures();                  // mix the images in the canvas
-                  // check if the texture is registered already so the swap is only made when the slider is used
-                  if (!isRegistered){
-                    registerTexture(api);         // register textures and apply canvas content
-                    isRegsitered = true;
-                  }else{
-                    udpateTexture(apiSkfb, 0.1);    // update the model texture
-                  }
-                }
-                output.innerHTML = this.value;  // update text display
+                  //findme note: Used to have handlers for percentage values etc.
               }
 
-              // Button handling
-              btnDetail.onmousedown = function () {
-                setCanvasSize(ctx,max);
-                mixTextures();
-                // check if the texture is registered already so the swap is only made when the button is used
-                if (!isRegistered){
-                  registerTexture(api);          // register textures and apply canvas content
-                  isRegsitered = true;
-                }else{
-                  udpateTexture(apiSkfb, 0.92);   // update the model texture
-                }
+              // changes value of normal slider and then updates the model
+/*    deprecated repositioned slider instead          sliderFullscreen.oninput = function () {
+                  slider.value = sliderFullscreen.value;
+                  mixChannels(api);
               }
+*/
 
-              btnDetail.onmouseup = function () {
-                setCanvasSize(ctx,mid);
-                mixTextures();
-                udpateTexture(apiSkfb, 0.1);    // update the model texture
-              }
 
-                // set the canvas to a larger size and update texture for hi-res texture after sliding finished
-//              function sliderMouseUp () {
-                slider.onmouseup = function () {
-                  // resize the canvas to be small and fast
-                  setCanvasSize(ctx,mid)
+              //findme note: requires OSload to be initialised in front of sketchfab
 
-                  // mix images at a larger size
-                  mixTextures();
+              // annotation click handler
+              api.addEventListener('annotationSelect', function(index) {
+                selectScene(index);
+              });
 
-                  // update the texture
-                  udpateTexture(apiSkfb);
-                }
+              $('.scene-enabled').click(function () {
+                  api.gotoAnnotation( $(this).attr("data-index-number") );
+              })
           });
 
       });
-
-
 
   };
 
@@ -340,7 +808,7 @@ function ready(){
   client.init(uid, {
       success: success,
       error: error,
-      autostart: 1,
+      autostart: 0,
       camera: 0,
       preload: 1,
       ui_watermark: 0,
